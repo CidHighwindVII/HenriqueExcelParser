@@ -46,14 +46,20 @@ namespace Henrique
                 if(lines.Count() > 0) {
                     foreach (string line in lines)
                     {
-                        string[] lineValues = line.Split(';');
+                        string[] lineValues = line.Split(',');
 
-                        if (lineValues[4] != null && !string.IsNullOrEmpty(lineValues[4])){
+                        if (lineValues[0] != "\"\"" && !string.IsNullOrEmpty(lineValues[0])){
                             List<string> row = new List<string>();
 
-                            if (lineValues.Count() > 10)
+                            if (lineValues.Count() > 12)
                             {
                                 List<string> list = lineValues.ToList();
+                                while (list.Count() > 13)
+                                {
+                                    list[2] += "," + list[3];
+                                    list.RemoveAt(3);
+                                }                                
+
                                 list[6] += "," + list[7];
                                 list[8] += "," + list[9];
                                 list[11] += "," + list[12];
@@ -72,6 +78,13 @@ namespace Henrique
                         } 
                         else
                         {
+                            List<string> list = lineValues.ToList();
+                            while (list.Count() > 10)
+                            {
+                                list[2] += "," + list[3];
+                                list.RemoveAt(3);
+                            }
+                            lineValues = list.ToArray();
                             table[table.Count - 1][1] += " " + lineValues[1];
                             table[table.Count - 1][2] += " " + lineValues[2];
                         }
